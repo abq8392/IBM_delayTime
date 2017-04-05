@@ -1,1 +1,1 @@
-web: python start.py runserver 0.0.0.0:5000
+web: gunicorn index:app --log-file=-
