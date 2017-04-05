@@ -14,6 +14,19 @@
         </script>
     </head>
     <body>
+        <h1>
+            Watson Speech-to-Text API Test
+        </h1>
+        <p>
+            謝謝您參與本次的測試！以下將有幾點事項說明：<br/>
+         
+            <li>本實驗旨在測試語音辨識的能力，請就平常說話的速度及音量朗讀下段文字，<b>無須刻意放慢或提高音量</b></li>
+            <li>按下"Start"按鈕後即開始錄音，請確認麥克風有正常運行</li>
+            <li>當朗讀完畢後，請按下"Stop"按鈕，並將產生的逐字稿以截圖或複製的方式回傳給主試者</li>
+        </p>
+
+        <h3>按下"Start"按鈕後請朗讀下段文字</h3>
+        <p>Science. The very word for many of you conjures unhappy memories of boredom in high school biology or physics class. But let me assure that what you did there had very little to do with science. That was really the "what" of science. It was the history of what other people had discovered. What I'm most interested in as a scientist is the "how" of science. Because science is knowledge in process. We make an observation, guess an explanation for that observation, and then make a prediction that we can test with an experiment or other observation.</p>
         <button id="startBtn" onclick="start()" type="button">
             Start
         </button>
@@ -23,7 +36,9 @@
         <div id="lines" style="height:300px; overflow-y: scroll; overflow-x: hidden;">
         </div>
         {% if token %}
-        <div id="tokenDiv" style="display:none">{{ token }}</div>
+        <div id="tokenDiv" style="display:none">
+            {{ token }}
+        </div>
         {% endif %}
     </body>
 </html>
