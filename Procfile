@@ -1,1 +1,1 @@
-web: python start.py
+web: python start.py runserver 0.0.0.0:5000
