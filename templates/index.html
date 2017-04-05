@@ -22,5 +22,8 @@
         </button>
         <div id="lines" style="height:300px; overflow-y: scroll; overflow-x: hidden;">
         </div>
+        {% if token %}
+        <div id="tokenDiv" style="display:none">{{ token }}</div>
+        {% endif %}
     </body>
 </html>
