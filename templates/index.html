@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>
+            IBM API Test
+        </title>
+        <script src="static/js/jquery.js" type="text/javascript">
+        </script>
+        <script src="https://watson-speech.mybluemix.net/bower_components/fetch/fetch.js">
+        </script>
+        <script src="https://watson-speech.mybluemix.net/bower_components/watson-speech/dist/watson-speech.js">
+        </script>
+        <script src="static/js/test.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <button id="startBtn" onclick="start()" type="button">
+            Start
+        </button>
+        <button id="stopBtn" onclick="stop()" type="button">
+            Stop
+        </button>
+        <div id="lines" style="height:300px; overflow-y: scroll; overflow-x: hidden;">
+        </div>
+    </body>
+</html>
