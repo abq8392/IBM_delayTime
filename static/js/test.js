@@ -1,5 +1,13 @@
 var aaa;
 var start_timestamp;
+var dataBuffer = {
+    sentences:[]
+};
+
+function stop(){
+    console.log("Function Stop!");
+    WriteFile(dataBuffer,'testlog.json', 'application/json');
+}
 
 function start() {
     var token = $('#tokenDiv').text().trim();
@@ -30,10 +38,10 @@ function start() {
     stream.on('data', function(data) {
 
         if (data.results[0].final == true) {
+            var transcript_text = data.results[0].alternatives[0].transcript;
+            console.log("transcript: " + transcript_text);
 
-            console.log("initial data: \n" + JSON.stringify(data, null, 4));
-
-            $('#test' + lastDivId).text(data.results[0].alternatives[0].transcript);
+            $('#test' + lastDivId).text(transcript_text);
             lastDivId += 1;
             console.log("sentence id: " + lastDivId);
             jQuery('<div/>', {
@@ -50,16 +58,19 @@ function start() {
             // Get finish detecting sentences time.
             var sentence_length = data.results[0].alternatives[0].timestamps.length;
             var end_timestamp = Math.round(+new Date() / 1000);
-            console.log("original end time: " + end_timestamp);
-            console.log("start time in function: " + start_timestamp);
+            //console.log("original end time: " + end_timestamp);
+            //console.log("start time in function: " + start_timestamp);
 
             var last_detect_word_time = parseFloat(data.results[0].alternatives[0].timestamps[sentence_length - 1][2]);
-            console.log("last detect word:" + last_detect_word_time);
+            //console.log("last detect word:" + last_detect_word_time);
 
             last_detect_word_time += start_timestamp;
             var delayTime = end_timestamp - last_detect_word_time;
 
             console.log("DelayTime: " + delayTime);
+
+            dataBuffer.sentences.push([lastDivId, transcript_text, delayTime]);
+            //console.log("dataBuffer:" + JSON.stringify(dataBuffer));
 
         }
 
@@ -69,27 +80,24 @@ function start() {
         start();
     });
     stream.on('stop', function(err) {
-        console.log('end');
+        //console.log('end');
     });
-    document.querySelector('#stopBtn').onclick = stream.stop.bind(stream);
+    $('#stopBtn').click(function(){
+        stream.stop.bind(stream);
+        console.log('end');
+    } );
 }
 
-function WriteToFile() {
-    var fso = new ActiveXObject('Scripting.FileSystemObject');
 
-    var dateObj = new Date();
-    var temp = '';
-    temp = temp + dateObj.getYear();
-    temp = temp + (dateObj.getMonth() + 1);
-    temp = temp + dateObj.getDate();
-    temp = temp + dateObj.getHours();
-    temp = temp + dateObj.getMinutes();
-    temp = temp + dateObj.getSeconds();
 
-    var folder = 'DelayTimeLog_' + temp + '.txt';
+function WriteFile(text, name, type) {
 
-    var s = fso.CreateTextFile(folder, true);
-    
-    s.WriteLine(text);
-    s.Close();
+    var a = document.createElement("a");
+    var json_text = JSON.stringify(text);
+    var file = new Blob([json_text], { type: "type" });
+    a.href = URL.createObjectURL(file);
+    console.log("blob: " + file);
+    a.download = name;
+    a.click();
+
 }
